@@ -1,0 +1,8 @@
+Dear Diary,
+I spent 11 hours walking through the arch wiki to install Arch Linux on a laptop with no ethernet port,
+now I need to start over and make sure to send over the NetworkManager from the USB. I then learned about 
+the simple command called archinstall, and I lost a few hairs on my head. 
+
+WARNING!!!
+
+!!   MAKE SURE NEW DEVICE HAS ETHERNET PORT, OTHERWISE INSTALL NETWORK MANAGER FROM USB !!
