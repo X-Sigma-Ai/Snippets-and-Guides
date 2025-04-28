@@ -1,0 +1,60 @@
+1. get rufus from https://rufus.ie/en/, scroll down and look for the standard download version (rufus-x.x.exe).
+
+2. run this in powershell to download the latest arch linux iso: Invoke-WebRequest -Uri "https://mirror.rackspace.com/archlinux/iso/latest/archlinux-x86_64.iso" -OutFile "$env:USERPROFILE\Downloads\archlinux.iso" -UseBasicParsing -Verbose
+
+3. open rufus. plug in the usb drive. use these settings:
+
+	device: select your usb drive
+
+	boot selection: choose the archlinux iso
+
+	partition scheme: GPT
+
+	target system: UEFI (non-CSM)
+
+	file system: FAT32 (it might change automatically to RAW if DD mode is selected)
+
+4. when rufus asks about writing the iso, select DD Image mode (not ISO Image mode). DD mode writes the iso byte-for-byte exactly like linux expects.
+
+5. enter bios menu on the laptop/pc. key depends on brand:
+
+	HP: press Esc repeatedly at startup, then press F10 for BIOS setup
+	
+	Dell: press F2 at startup
+
+	Asus: press F2 at startup
+
+	Lenovo: press F2 at startup
+
+6. in bios, go to boot options:
+
+	disable secure boot (this allows unsigned operating systems like arch linux to boot)
+
+	disable legacy boot (sometimes called legacy support or CSM support)
+
+	make sure boot mode is set to UEFI only
+
+	in UEFI boot order, move USB flash drive to the top of the list
+
+7. save and exit bios
+
+boot from the usb. make sure to select the UEFI version of the usb if given multiple options (it will say something like "UEFI: your usb name").
+
+if the usb was flashed correctly and bios is set correctly, you will reach the arch linux installer menu. select the first option to boot into arch.
+
+
+keyword explanations:
+
+uefi: unified extensible firmware interface. modern replacement for old BIOS. controls the hardware before an operating system loads. required for secure boot, faster boot times, and better security.
+
+legacy boot: the old BIOS-style booting method. some laptops allow legacy boot for compatibility with very old operating systems. for modern linux installs like arch, legacy boot should be disabled.
+
+secure boot: a uefi feature that only allows operating systems signed with approved certificates to boot. arch linux is open-source and not signed by microsoft, so secure boot must be disabled.
+
+dd mode: a flashing method that copies the iso file bit-by-bit exactly as it is onto the usb stick. this is required for linux distros like arch that expect a raw disk image, not a windows-style file copy.
+
+iso image mode: a flashing method that extracts and copies files individually from the iso. useful for windows installers but not good for linux installers like arch.
+
+init: the first process the linux kernel tries to start after booting. if linux cannot find init, it crashes with "no init found" and kernel panic.
+
+kernel panic: a safety stop when the linux kernel hits a critical problem it cannot recover from. often happens if boot media is bad or filesystem is missing.

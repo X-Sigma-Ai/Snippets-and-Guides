@@ -1,0 +1,23 @@
+//how to send a folder to a git folder aka repo. 
+1. make sure to open a terminal and cd to where the folder is then do all this:
+
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/YOUR GIT ID/YOUR REPO NAME.git
+git push -u origin main
+
+
+
+
+
+
+// make a combo  for add, commit and push do this once in powershell next time dont have to type so many commands
+git config --global alias.acp '!git add . && git commit -m "quick commit" && git push'
+
+//to use just cd into the folder and do  git acp
+
+
+
+

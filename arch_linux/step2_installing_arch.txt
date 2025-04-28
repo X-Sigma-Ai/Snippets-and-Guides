@@ -1,0 +1,265 @@
+1. confirm you are in live environment and root@archiso is showing
+
+2. Set up wifi by running
+iwctl // which puts you in a folder called iwd then inside iwctl:
+
+device list // this is gonna show devices most likely as wlan0
+
+station wlan0
+
+station wlan0 get-networks
+
+station your_device connect network_name
+
+// enter your password and you should be connected. 
+
+check if you have internet connection run:
+ping -c 3 archlinux.org
+if you get replies, internet is good you will get pings constantly. Do ctrl C to stop it. now move on to set up clock. 
+
+3. update the system clock
+run:
+timedatectl set-ntp true (timedatectl = Time Date Control)
+
+4. partition the hard drive
+run:
+lsblk // this is gonna list your hard drive
+/// you will see a lot of colums such as name, maj:min RM, Size, RO, type, mountpoints.
+name = name duh, maj: min ignore this, RM is if its removable 0 is false and 1 is yes, Size is size of drive duh, RO is Read only 0=false, 1 is true,
+type: loop is a fake disk or iso thing, disk is actual hard drive, part is when the hard drive is split
+loop0 is the usb and the sda1 and sda2 are patitions in the bootable usb. mmcblk is the hard drive that is soldered to the laptop.
+do not touch mmcblkboot0 and mmcblkboot1 thats system stuff
+
+you want to partition mmcblk (= Multi Media Card BLock) so run
+
+run cfdisk /dev/mmcblk0
+
+// a menu shows up with 4 otpions gpt = modern partition talbe, dos is old school partition, sgi is for even older stuff like silicon graphics, and 
+sun is old sun microsystems. ignore all 3 otpions//
+
+choose gpt
+
+// you will see free space, start, end and sectors and size type. Imagine you have a huge bookshelf with slots for books
+each slot is a sector. the free space starts from the start slot till the end slot. we don't need to partition buy slots, 
+only state how big it needs to be.
+
+make these partitions:
+
+1. 512M EFI System Partition (type: EFI System) // the front door and doorbet boot system
+//Go to NEW and type 512M press enter. then move to TYPE and change it to EFI System
+this is called mmbcblk0p1 currently
+
+2. swap partition if you want  // this is the emergency closet and backup ram
+//Go to New again and type 4G, press Enter and andd then change the type to Linux Swap
+
+3. remaining space as Linux filesystem for root (/) //the entire house
+//Go to new and press enter and it will use the remainder of space. this is your linux filesystem
+this is called mmbcblk0p3. remember this name cuz thats how we call the root directory from now on
+
+write and quit
+
+// if you wanna see this partition again just run fdisk-l or lsblk (= List Block Devices)
+
+5. format the partitions
+// make sure you are back at root. 
+to format the EFI parition do 
+mkfs.fat -F32 /dev/mmcblk0p1
+
+to see if you did it right run
+lsblk - f and you should see it in the partitions with the right FAT32 and a UUid
+
+for root partition:
+mkfs.ext4 /dev/mmbcblk0p3
+//you will see stuff happening, and device blocks being discarded. stuff will happend and then its done. 
+
+for the swap partition do 
+mkswap /dev/mmcblk0p2  // its gonna set up swap space and stuff
+
+swapon /dev/mmcblk0p2 //  you have to do this to then enable the swap drive or else its dead
+
+
+6. mount the partitions
+
+mount /dev/mmbcblk0p3 /mnt  // mounts the home directory
+mkdir /mnt/boot   // make a folder inside this so that the boot file can live in here
+mount /dev/sda1 /mnt/boot // mounts the efi boot file into here. 
+
+//YOU MUST DO IT IN THIS ORDER OR ELSE!!
+
+run lsblk 
+
+//check to see you see moutnpoints and everytihgin is in the right place. You will see a new category calloed 
+MOUNTPOINTS and p1 should be in mnt/boot, p2 is gonna be [SWAP] and p3 is gonna be in mnt.
+
+7. install linux into laptop now
+run:
+pacstrap /mnt base linux linux-firmware vim nano
+// you get the base kernel of linux and nano text editor and vim. i dont like vim, i like nvim, but vim is default to arch, 
+install nvim later
+
+//GLORIOUS HACKERMAN MOMENT Commences as stuff is gonna load
+
+
+8. generate fstab ( File System Table = file that lists disks to mount at boot)
+
+
+
+run:
+genfstab -U /mnt >> /mnt/etc/fstab
+
+to check if you did it right, run cat /mnt/etc/fstab
+and it should display a list of partitions. 
+
+9. chroot (=Change Root = go from the USB Root to the laptop root )into your new system
+run:
+arch-chroot /mnt
+
+//now you are inside your real future system. you wont see root@archiso~ anymore but you will see
+[root@archiso/].
+ run ls to see if all things are correct. if you see bin boot dev you did it right, you are in the correct root
+
+
+10. set the timezone
+run:
+ln -sf /usr/share/zoneinfo/ENTER YOUR REGION HERE/YOUR CITY HERE/etc/localtime
+run:
+timedatectl to check and it should show Time zone: YOUR REGION/ YOUR CITY
+
+then run:
+hwclock --systohc
+
+example:
+ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime
+
+// !! Sometimes this is wonky and won't show correctly yet. run 
+ls -l /etc/localtime
+  and if you see the Amnerica and Newyork region here all is good, even if you dont see it properly when
+you run timedatectl. DONT PANIC. 
+
+11. set the localization
+run:
+nano /etc/locale.gen // == this line means use nano (text editor) to go into etc folder and open locale.gen
+look for your US.UTF UTF-* line and remove the hashtag from it. go down until you find it. then press 
+Ctrl X, say Y for yes and press Enter to write and save this file/ 
+
+then run:
+locale-gen // this makes sure your system knows what language to use
+
+to see if this is succesful run:
+cat /etc/locale.gen | grep -v "^#"
+ and you shoudl see enUS.UTF-8 this means you did it right. 
+
+
+create  a /etc/locale.conf  with your locale and set it manually as default with
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
+
+to see if you did it right run:
+cat /etc/locale.conf
+and it shoudl show you LANG= en_US.UTF-8
+
+12. set the name of your device 
+echo "yourhostname" > /etc/hostname
+(=echo means create file. > means overwrite. and then we choose directory where we store it)
+DO NOT USE SPACES
+
+use the nano text editor to open and edit the etc/hosts folder run:
+nano /etc/hosts
+
+
+add these lines:
+
+127.0.0.1 localhost (lets the laptop know who it is and has its special ip)
+::1 localhost (same as above but for newer internet standard)
+127.0.1.1 yourhostname.localdomain yourhostname (lets laptop know its own name on the network)
+
+run:
+cat /etc/hosts
+
+!! BE SURE TO TYPE THE IP ADRESS CORRECTLY SUPER IMPORTANT!!
+
+13. set root password
+run:
+passwd
+// !! while you type you will see nothing. no stars or letters. make sure you type the correct. press enter
+it will ask you to type again. if it doenst match, no password gets updated. be sure and dont freak out. 
+
+14. //make sure that grub bootloader is installed. run:
+pacman -Qs grub
+if you see stuff like loca grub 2.12 thhen you are good. sometimes its already installed cuz of 
+pacstrap//
+GRUB = GRand Unified Bootloader is the very first program that runs after the bios is done and loads
+the OS linux into memory. 
+
+otherwise run:
+
+pacman -S grub efibootmgr  // this is the package of the grub thats being downloaded
+
+//its gonna ask you to pres Y to go on install
+
+install grub for uefi:
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=ArchLinux
+//this is the specific grub thing for the x86 laptop to search in the boot folder for archlinux
+if it ran good it will tell you and that there are no errors.
+
+
+//make a grub config file and output in into the boot grub config folder
+grub-mkconfig -o /boot/grub/grub.cfg
+it will do stuff and show you when its done. 
+
+15. LAST STEP. 
+run:
+exit //brings me back to LIVE USB shell
+
+run: 
+umount -R /mnt //unmounds everything
+
+//runL lsblk to make sure nothing is mounted under /mnt anymore only the USB and the SWAP will appear
+
+
+reboot
+
+(remove the usb drive when rebooting. when the screen turns black and you there the fans stop and start
+
+after rebooting you will boot into your fresh installed arch linux system
+
+16: make sure internet is installed and working
+
+
+
+
+17: Create a new user
+
+pacman -S sudo  //installs the sudo package
+
+useradd -m -G wheel YOURUSERNAME // create user
+passwd YOURUSERNAME // you have to type passwd and the USERNAME that you made meaning "password for this guy"
+
+
+// enable sudo for wheel group
+install sudo if needed:
+pacman -S sudo
+
+edit /etc/sudoers using visudo and uncomment:
+%wheel ALL=(ALL:ALL) ALL
+
+install network manager so you have wifi after reboot
+pacman -S networkmanager
+enable it:
+systemctl enable NetworkManager
+
+install desktop environment later (like gnome, kde, xfce)
+example for gnome:
+pacman -S gnome gnome-extra
+enable gdm:
+systemctl enable gdm
+
+📜 Keywords:
+uefi: modern firmware that replaces bios. needed for modern booting.
+grub: the bootloader that loads linux.
+fstab: file system table, tells linux what partitions to mount at boot.
+chroot: change root into another linux system environment.
+pacstrap: script that installs the base arch system.
+locale: system language and encoding settings.
+hostname: the name of your computer on networks.
+networkmanager: tool that manages wifi and ethernet connections easily.
+wheel group: group of users allowed to run sudo (admin commands).
