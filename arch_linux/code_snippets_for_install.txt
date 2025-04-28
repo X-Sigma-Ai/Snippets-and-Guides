@@ -1,0 +1,43 @@
+iwctl
+station device connect "wifi-name"
+
+cfdisk /dev/yourdiskname
+
+mkfs.fat -F32 /dev/your-EFI-partition
+mkfs.ext4 /dev/your-root-partition
+mkswap /dev/your-swap-partition
+swapon /dev/your-swap-partition
+
+mount /dev/your-root-partition /mnt
+mkdir /mnt/boot
+mount /dev/your-EFI-partition /mnt/boot
+
+pacstrap /mnt base linux linux-firmware nano vim
+
+genfstab -U /mnt > /mnt/etc/fstab
+
+arch-chroot /mnt
+
+ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
+hwclock --systohc
+
+nano /etc/locale.gen
+locale-gen
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
+
+echo "yourhostname" > /etc/hostname
+nano /etc/hosts
+
+passwd
+
+pacman -S grub efibootmgr
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=ArchLinux
+grub-mkconfig -o /boot/grub/grub.cfg
+
+pacman -S sudo
+EDITOR=nano visudo
+useradd -m -G wheel yourusername
+passwd yourusername
+
+pacman -S networkmanager
+systemctl enable NetworkManager
