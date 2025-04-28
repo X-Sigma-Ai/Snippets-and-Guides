@@ -1,0 +1,7 @@
+DO NOT HARDCODE YOUR API KEYS INTO APPS AND PUSH TO GIT
+
+HUGE DANGER, DO NOT DO IT. 
+
+To-Do:
+
+learn about .env and git ignore stuff later
