@@ -19,4 +19,4 @@ and everthing runs
 
 gonna make the alias to git up now:
 
-git config --global alias.up '!git add . && git commit -m "new update" && git push'
+git config --global alias.sendit '!git add . && git commit -m "new update" && git push'
