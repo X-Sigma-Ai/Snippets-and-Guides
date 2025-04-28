@@ -1,0 +1,5 @@
+1. cd to your folder. then do:
+
+git add .
+git commit -m "new update"
+git push
