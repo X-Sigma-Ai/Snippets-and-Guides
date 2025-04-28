@@ -1,0 +1,25 @@
+//make an alias that will serve as a combo of many lines of code for powershell.
+
+WARNING DO NOT USE A KEYWORD THAT ALREADY EXISTS
+
+first look at all the keywords that git has by running:
+
+git help -a
+
+----------------------------------
+
+look up all the aliases that you made already by running:
+
+git config --global --get-regexp alias
+
+---------------------------------------------
+
+how to delete your alias, just run: 
+
+git config --global --unset alias.NAME-OF-ALIAS
+
+so if you have an alias called "combo", to delete it you run:
+
+git config --global --unset alias.combo
+
+-----------------------------------------------
