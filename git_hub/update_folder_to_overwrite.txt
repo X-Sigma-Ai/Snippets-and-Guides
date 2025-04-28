@@ -3,3 +3,20 @@
 git add .
 git commit -m "new update"
 git push
+
+
+//nobody has time to run 3 lines of code to update so make a combo out of it and give it a new name with:
+
+git config --global alias.update '!git add . && git commit -m "new update" && git push'
+
+next time run:
+
+git update
+
+and everthing runs
+
+//ok so git update already exists. WARNING: dont make aliases that already exist. 
+
+gonna make the alias to git up now:
+
+git config --global alias.up '!git add . && git commit -m "new update" && git push'
