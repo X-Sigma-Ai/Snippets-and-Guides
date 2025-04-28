@@ -1,0 +1,9 @@
+if you wand to do a savefile of your work before slaughtering it all to see how far you can go
+make a branch and then go buck wild. cd to the folder first then run:
+
+git add .
+git commit -m "YOUR CHANGES HERE"
+git push -u origin YOUR BRANCH NAME
+
+//gonna try to make a combo of notes and weather app in one by myself so this will be the new 1 billion
+dollar app idea
