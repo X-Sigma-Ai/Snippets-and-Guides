@@ -1,0 +1,139 @@
+//install arch with the archinstall command. 
+
+
+1. connect to internet:
+
+iwctl ( shows you network) 
+iwd (puts you in the iwd menu)
+device list (scans devices and look for router name, mine was wlan0)
+station wlan0 scan
+station wlan0 get-networks
+
+station wlan0 connect WIFI_NAME
+
+then enter password
+
+
+run:
+
+ping archlinux.org 
+
+(if you get packets then good. press ctrl c to stop the feed) 
+-------------------------------------------------------------------------------------
+
+run: 
+archinstall
+
+// a nice menu shows up now. use arrow key to navigate and press enter to select stuff
+
+Language: English duh
+Locale: Keyboard Layout: us | Locale language:en_US | Locale encoding: UT-8
+Mirror and Repositories: (select the closest region) America
+Partition: Use Best,  choose your laptop hardwarde mostly likely as mmbc, choose ext4. 
+Encryption: (enable if you want to be prompted for pw every time, leave off unless ur Edward Snowden)
+Swap: say NO to "Would you like to use swap on zram"
+Bootloader: SystemD
+Unified Kernel: no
+Hostname: (enter your host name here)
+Password: (dont use 123 as your password)
+User account: (make a user and enter their password. later you get asked if they shoudl be sudo or not)
+---------------------------------------------------------------------------------------
+Profile: (choose a default profile. most people shoudl use desktop, from here I choose Hyprland, polkit)
+!! DO NOT CHOOSE MINIMAL OR ELSE YOU WILL HAVE NOTHING
+Graphics driver: (choose the one for your system, i have )Intel Open Source
+Greeter: ( i want to do Hyprland so i will choose ) gdm
+
+----------------------------------------------------------------------------------------
+Audio: Pipewire (best option and uses bluetooth out the box)
+Kernel: (stick with default) linux
+------------------------------
+SUPER IMPORTANT!! 
+Network Configuration: USE NETWORK MANAGER
+-------------------------------
+Packages: (technically dont need to do this but i am paranoid so and hurt, Install these to be sure 
+base-devel
+curl
+git
+gvfs
+gvfs-mtp
+iwd
+mesa
+neovim
+networkmanager
+noto-fonts
+noto-fonts-cjk
+noto-fonts-emoji
+pipewire
+polkit
+sudo
+vim
+wayland
+wlroots
+wireplumber
+xf86-video-intel
+xorg-xwayland
+)
+//I fear a broken install and being lonely without packages,
+//Most stuff here is for flutter dev and hyprland stuff. 
+//not needed but just for paranoia. 
+//3 Failed Arch installs for the very first install. 
+//Welcome to the Linux Experience. 
+
+
+TimeZone: Choose 'Murica
+Automatic Time Sync NTP : leave enabled
+Save Configuration: (!! Very dumb cuz it's not saving all these configs to the usb to use on another laptop for new arch install)
+		(Choose Save all and then type where you want to save it. /root/ is fine)
+
+Hit Install
+
+//you will be asked to use the configs json, say yes.
+
+
+Magic will happen on screen then you will be asked if you want to chrroot into the newlay created install.
+say yes. 
+
+when you see [root@archiso /]# run:
+
+exit
+umount -R /mnt
+reboot
+// as soon as black screen → unplug USB
+ 
+--------------------------------------------------------------------
+if all things go well it shoudl run and ask you for your login and password.
+
+activate the network manager by running:
+sudo systemctl start NetworkManager
+and enter your password.
+
+
+After the first boot in, the system might freeze cuz all the stuff is setting up. after the first reboot all things should be good. 
+DONT FEAR THE FREEZE!!
+
+
+!!!!!!!!!!!!!!!!
+FOR SOME REASON THERE IS NO PACMAN IN THIS INSTALL AND NOTHING MAKES SENSE. 
+open terminal and run this to install pacman, even though it should have been here wtf
+
+curl -O https://america.mirror.pkgbuild.com/core/os/x86_64/pacman-6.0.2-7-x86_64.pkg.tar.zst
+// this will download the zipped file
+
+unzstd pacman-6.0.2-7-x86_64.pkg.tar.zst
+// this will unzip it
+
+sudo tar -xvpf pacman-6.0.2-7-x86_64.pkg.tar -C /
+// this will install it. 
+
+---------------------------------
+
+THIS IS BAREBONES AND NOTHING IS INITIALIZED WTF!!
+
+
+
+
+
+
+
+
+

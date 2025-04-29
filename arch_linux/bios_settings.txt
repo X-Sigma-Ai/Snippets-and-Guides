@@ -1,0 +1,14 @@
+to enter hp bios menu: f10
+
+usb boot: enabled
+network bot: disabled
+secure boot: disabled
+
+UEFI Boot Order: USB MODE on top.
+
+------------------------
+
+to choose the boot device
+
+pres esc at startup and press f9
+

@@ -24,3 +24,9 @@ git config --global alias.sendit "!git add . && git commit -m newupdate || exit 
 
 
 // this is a forcefull overwrite. normally not what you use git for
+
+
+sometimes git will panic cuz a folder was made as admin and it will freak out if you try to push as
+normal user. for that you need to reassure git that its safe by running 
+
+git config --global --add safe.directory 'PATH TO YOUR FOLDER HERE'
