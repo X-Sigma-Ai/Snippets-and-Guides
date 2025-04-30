@@ -1,0 +1,26 @@
+========================================================================
+UPDATE ALL PACKAGES
+sudo pacman -Syu
+	S= Synchronize packages
+	y=refresh package list
+	u = upgrade all installed packages
+========================================================================
+SEE WHAT DESKTOP YOU ARE ON
+
+echo $XDG_CURRENT_DESKTOP
+========================================================================
+HOW TO UNPACK CONFIGS FROM DOWLOADED PACKAGES TO THE CONFIG FILE
+DO THIS ALWAYS, ARCH DOES NOT BABYSIT OR SPOON FEED YOU
+
+1. Find system default		find /usr -name APPNAME.conf 2>/dev/null
+2. Create config folder		mkdir -p ~/.config/APPNAME
+3. Copy config in place		cp /usr/share/... ~/.config/APPNAME/.conf
+4. Edit config			nano ~/.config/APPNAME/.conf
+========================================================================
+HOW TO FORCIBLLY REMOVE AN OLD INSTALL AND WIPE THE CONFIGS
+
+sudo pacman -Rns APPNAME
+rm -rf ~/.config/APPNAME
+========================================================================
+
+

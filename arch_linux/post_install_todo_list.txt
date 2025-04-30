@@ -1,0 +1,28 @@
+!! Don't be a distro hopper!!
+
+Things to set up in a new linux install: 
+
+1. Terminal window: Kitty (most prettiest to customize, make a git)
+2. File manager: Thunar (light) 
+3. Internet Explorer: Librewolf [DO NOT MAKE REPO]
+4. Password manager: Bitwarden [DO NOT MAKE INTO REPO]
+5. Text Editor: Neovim (cuz of supremacy, make a git)
+6. Window Manager : Hyperland (makes windows into box layout look like hacker, make git)
+7. Status Bar: Waybar (make git for customizations)
+8. Notification Demon: Dunst (popup manager)
+9. Wallpaper Setter: Hyperpaper (cant use right click, set as bg anymore, so need this)
+10. Media Player: MPV (rip VLC player)
+11. Archive Manager: Zipper (rip Winrar)
+12. Clipboard manager: cliphist (rip clippy)
+
+-------------------------------------------------------
+!!Only do repo for the /config/ files and nothing else
+
+
+other packages to do later:
+
+OpenSSH
+NeovimPacker, 
+Flatpak,
+Dart SDK,
+Flutter SDK

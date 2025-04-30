@@ -263,3 +263,5 @@ locale: system language and encoding settings.
 hostname: the name of your computer on networks.
 networkmanager: tool that manages wifi and ethernet connections easily.
 wheel group: group of users allowed to run sudo (admin commands).
+
+(11 hours)

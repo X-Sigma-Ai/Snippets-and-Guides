@@ -58,3 +58,6 @@ iso image mode: a flashing method that extracts and copies files individually fr
 init: the first process the linux kernel tries to start after booting. if linux cannot find init, it crashes with "no init found" and kernel panic.
 
 kernel panic: a safety stop when the linux kernel hits a critical problem it cannot recover from. often happens if boot media is bad or filesystem is missing.
+
+
+(30 mins)

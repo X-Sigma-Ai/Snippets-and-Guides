@@ -1,0 +1,144 @@
+!! Looking like a hacker is more important than actually being one. For that, you need to have tiling windows!!
+
+run:
+pacman -Qs hyprland
+	to see if you have hyprland installed. Output shoould show a local/hyprland stuff. 
+
+if not then run:
+	sudo pacman -S hyprland xdg-desktop-portal-hyprland xdg-desktop-portal wl-clipboard
+-----
+systemctl status display-manager
+	run this to see if you have a display manager and what it is. then you are to log out of it. 
+	i have GNOME so my command is:
+gnome-session-quit --logout --no-prompt
+
+------------------------
+when you login there is a gear by the bottom right,. this is where youy can choose hyprland desktop. 
+SUPER = windows key. Press SUPER and Q to open kitty. 
+edit: SUPER Q is ONLY FOR THE FIRST TIME. IT IS NOT A COMMAND TO OPEN KITTY. It means killactive
+----------------------
+
+INSTALL AND COPY OVER THE DIRECTORY TO THE CONFIG FOLDER: 
+1. Find system default		find /usr -name APPNAME.conf 2>/dev/null
+2. Create config folder		mkdir -p ~/.config/APPNAME
+3. Copy config in place		cp /usr/share/...    ~/.config/APPNAME/.conf
+4. Edit config			nano ~/.config/APPNAME/.conf
+
+find /usr -name hypr.conf 2>/dev/null // to find the folder you need to copy
+mkdir -p ~/.config/hypr/hyprland.conf  // to make the folder for your configs
+cp /usr/share/hypr/hyprland.conf ~/.config/hypr/hyprland.conf // copy over the stuff to your folder
+nano ~/.config/hypr/hyprland.conf  // use nana to open this config folder.
+
+TO DO: Learn how to write script to do this 	
+-------------------------
+
+get an app launcher:
+sudo pacman -S wofi
+//wofi is native with wayland and hyprland
+-----------------------------------
+WARNING: SUPER Q is KILL ACTIVE. if you press it with a barebones hyprland you close the terminal
+and there is nothing you can do...need to initial a shortcut key to open kitty. 
+------------------------------------
+in the config file:
+~/.config/hypr/hyprland.conf
+
+if you look up bind this is the keybind combos and this is where you can set up
+for SUPER and Enter to open Kitty:
+bind = $mainMod, RETURN, exec, kitty
+--------------------------------------
+key binds to know by default in hypr:
+	
+	SUPER X = Kills the window you're on
+		(Used to be C but you close nano with x so )
+	SUPER ESCAPE = Exits  the whole hyperland session
+		(Used to be M, but Im gonna make it ESCAPE cuz thats more drastic)
+	SUPER O = Opens your filemanager (default is dolphin, gonna use thundar later)
+		(Used to be E, but Im gonna make it O cuz it makes sense)
+	SUPER V = Makes the window floating like how Windows has it
+	SUPER P = Makes the window tile Psuedo while you can freely resize
+	SUPER R = Opens the app launcher wofi
+	SUPER L = Changes if new window opens vertical or horizontal. 
+		(Used to be SUPER J, but Changed it to SUPER L so it feels just like kitty 
+		has the togglesplit option as CTRL SHIFT L)
+----------------------------------------------------------------
+WAYBAR
+
+Hyprland has an AUTOSTART and likes waybar as a statusbar menu so lets use it
+run:
+sudo pacman -S waybar 
+//waybar needs a special font so grab that too:
+
+run:
+sudo pacman -S ttf-font-awesome
+// this gives us nice icons for our status bar holy shit
+
+//set WAYBAR to open when HYPRLAND starts, go to hypr/conf and write or uncomment this:
+exec-once = waybar
+
+
+TO DO: learn how to get waybar configs from github later so i can have a config/waybar 
+defaulty config. Don't have Internet browser at the moment, will get later, Gotta delete the sway stuff
+in the module and put in hyprland stuff
+-----------------------------------------------------------------
+LIBREWOLF
+
+I need a browser on this laptop. for Librewolf you need its own special pacman/winget called
+Flatpak. Something about updates and sandboxed lingo I dont understand yet. Librewolf is for
+security and it needs to be up to date automatically. though this breaks the arch rule of 
+"do it yourself always" you can't take that risk with somethign thats supposed to represent security
+for this reason it has its own special pacman i think
+ run:
+
+sudo pacman -S flatpak
+
+// then add the repo, i guess so it knows to do its own updates later
+
+sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+then install the flatpak version of librewolf with:
+flatpak install flathub io.gitlab.librewolf-community
+
+RECOMMENDED TO PUT KEYBIND
+	SUPER B = opens librewolf browser 
+put this in the hypr.conf:
+bind = $mainMod, B, exec, flatpak run io.gitlab.librewolf-community
+
+-----------------------------------------------------------------
+WARNING: THINGS MIGHT FREEZE ON FIRST INITIALIZATION. This is the Linux way, apparently.
+-----------------------------------------------------------------
+BITWARDEN
+
+OOF---Librewolf does not remember login or password. I guess this is an obvious duh since it is so focused
+on no tracking or telemetry stuff. We need a password manager. Time for Bitwarden.
+
+run: 
+flatpak install flathub com.bitwarden.desktop
+
+launch this and make an account:
+flatpak run com.bitwarden.desktop
+
+Click on add new item and select Login, enter your username and pw and then the site that is for this pw. 
+
+----------------------------------------------------
+
+//open librewolf which is just firefox in disguise it seems. seach extensions, look up bitwarden, 
+install it. then open the bitwarden ext in firefox and password and its done. from here on out anytime
+you visit a site that you gave the pw to bit warden for, you have to click bit and have him autofill
+manual click is needed. no more auto login and saved passwords. the price for security is heavy indeed. 
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

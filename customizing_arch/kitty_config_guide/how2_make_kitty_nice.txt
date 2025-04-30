@@ -1,0 +1,52 @@
+MAKE KITTY PRETTY 
+
+most kitty terminals are new and updaetd and have file open functions.
+mine does so i need to do it from scratch. '
+
+sudo find /usr -iname '*kitty*'
+	do a search for everything with kitty. we are trying to find
+	usr.share........kitty.conf file. when you do that command
+	all things will show up. you have to now copy it and paste it in 
+	a directory. 
+
+
+======================================================
+
+cp /usr/share/.../kitty.conf   ~/.config/kitty/kitty.conf
+	linux dont have ctrl c or right click. gotta do cp, path and then type the 
+	new path. now use nano to open the file by running
+
+nano ~/.config/kitty/kitty.conf
+	A whole lotta stuff will be here, you can delete the hastags or make modifications here,
+
+	if the thing you modify has a # in front of it, be sure to remove it. 
+	when you make a change in kitty press Ctrl+O to write and then
+	hard reload run:
+kill -SIGUSR1 $(pidof kitty)
+======================================
+
+KITTY COMMANDS:
+
+Ctrl+Shift+Enter opens a new split terminal
+CTR + L changes how the new terminal opens
+CTR + Shift + W close the terminal you are focused in
+
+// to have Split window navigation put this in the kitty.conf file
+map ctrl+shift+right next_window
+map ctrl+shift+left previous_window
+map ctrl+shift+up next_window
+map ctrl+shift+down previous_window
+
+then you can do ctrl+shift+left or whatever to navigate with keys
+
+====================================   
+here are the changes made:
+
+window_margin_width 10
+single_window_margin_width 0
+active_border_color #00ffff
+window_border_width 1pt
+ 
+
+(2 hours)
+
